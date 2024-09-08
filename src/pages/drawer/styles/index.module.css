@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.actions {
+  background-color: silver;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.picker {
+  width: 60px;
+  height: 30px;
+}
