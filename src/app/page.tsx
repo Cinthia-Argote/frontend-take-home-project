@@ -8,7 +8,12 @@ export default function Home() {
       <div className={styles.code}>
         <p>Frontend Engineer Take Home Project</p>
       </div>
-
+      <div className={styles.example}>
+        <p>Open the example here: </p>
+        <Link href="/drawer">
+          <Image alt="Drawer" src={"/app.png"} width={32} height={32} />
+        </Link>
+      </div>
       <div className={styles.center}>
         <Image
           className={styles.logo}
@@ -35,10 +40,6 @@ export default function Home() {
           <code className={styles.code}>README.md</code>
         </p>
       </div>
-
-      <Link href="/drawer">
-        <button className={styles.goDrawer}>Go Drawer</button>
-      </Link>
 
       <br></br>
 
