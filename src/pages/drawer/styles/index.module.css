@@ -1,16 +1,8 @@
+
 .container {
   display: flex;
   flex-direction: column;
-}
-
-.actions {
-  background-color: silver;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.picker {
-  width: 60px;
-  height: 30px;
+  width: 800px;
+  margin: auto;
+  border: darkgray 1px solid;
 }

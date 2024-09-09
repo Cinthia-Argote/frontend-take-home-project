@@ -1,5 +1,6 @@
+import { ModeCanvas } from "@/enums";
 import { useRef, useState, useEffect, MouseEvent, FC } from "react";
-import { ModeCanvas } from "../../enums";
+
 
 interface DrawerCanvasProps {
   color: string;
@@ -30,6 +31,7 @@ const Canvas: FC<DrawerCanvasProps> = ({
       if (ctx) {
         setContext(ctx);
         ctx.strokeStyle = color;
+
         if (mode === ModeCanvas.DRAW) {
           ctx.lineWidth = 2;
           ctx.globalCompositeOperation = "source-over";
@@ -39,8 +41,8 @@ const Canvas: FC<DrawerCanvasProps> = ({
 
         if (mode === ModeCanvas.ERASE) {
           ctx.globalCompositeOperation = "destination-out";
-          ctx.lineWidth = 10;
-          canvas.style.cursor = "url('/eraser.svg') 50 50, auto";
+          ctx.lineWidth = 30;
+          canvas.style.cursor = "url('/eraser.svg') 60 60, auto";
           hasInput.current = false;
         }
 
@@ -49,13 +51,10 @@ const Canvas: FC<DrawerCanvasProps> = ({
           canvas.style.cursor = "url('/inputText.svg') 50 50, auto";
           ctx.globalCompositeOperation = "source-over";
         }
-
-        if (mode === ModeCanvas.RECTANGLE) {
-        }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode]);
+  }, [mode, color]);
 
   const addInput = (x: number, y: number) => {
     const input = document.createElement("input");
@@ -123,17 +122,15 @@ const Canvas: FC<DrawerCanvasProps> = ({
   };
 
   return (
-    <>
-      <canvas
-        ref={canvasRef}
-        width={800}
-        height={600}
-        onMouseDown={startDrawing}
-        onMouseUp={stopDrawing}
-        onMouseMove={draw}
-        onClick={onClickCanvas}
-      />
-    </>
+    <canvas
+      ref={canvasRef}
+      width={800}
+      height={600}
+      onMouseDown={startDrawing}
+      onMouseUp={stopDrawing}
+      onMouseMove={draw}
+      onClick={onClickCanvas}
+    />
   );
 };
 
