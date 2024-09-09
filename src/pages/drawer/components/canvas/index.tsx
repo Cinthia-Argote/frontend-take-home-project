@@ -1,6 +1,6 @@
+import { configCanvas } from "@/config/canvas";
 import { ModeCanvas } from "@/enums";
 import { useRef, useState, useEffect, MouseEvent, FC } from "react";
-
 
 interface DrawerCanvasProps {
   color: string;
@@ -17,9 +17,7 @@ const Canvas: FC<DrawerCanvasProps> = ({
   const hasInput = useRef(false);
 
   const onClickCanvas = (e: MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (mode === ModeCanvas.DRAW || mode === ModeCanvas.ERASE) return;
+    if (mode !== ModeCanvas.TEXT) return;
     if (hasInput.current) return;
     addInput(e.clientX, e.clientY);
   };
@@ -32,25 +30,14 @@ const Canvas: FC<DrawerCanvasProps> = ({
         setContext(ctx);
         ctx.strokeStyle = color;
 
-        if (mode === ModeCanvas.DRAW) {
-          ctx.lineWidth = 2;
-          ctx.globalCompositeOperation = "source-over";
-          canvas.style.cursor = "url('/pencil.svg') 50 50, auto";
+        if (mode !== ModeCanvas.TEXT) {
           hasInput.current = false;
         }
 
-        if (mode === ModeCanvas.ERASE) {
-          ctx.globalCompositeOperation = "destination-out";
-          ctx.lineWidth = 30;
-          canvas.style.cursor = "url('/eraser.svg') 60 60, auto";
-          hasInput.current = false;
-        }
-
-        if (mode === ModeCanvas.TEXT) {
-          ctx.lineWidth = 2;
-          canvas.style.cursor = "url('/inputText.svg') 50 50, auto";
-          ctx.globalCompositeOperation = "source-over";
-        }
+        const config = configCanvas[mode];
+        ctx.lineWidth = config.lineWidth;
+        ctx.globalCompositeOperation = config.operation;
+        canvas.style.cursor = config.cursor;
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -117,7 +104,6 @@ const Canvas: FC<DrawerCanvasProps> = ({
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
     context.lineTo(x, y);
-
     context.stroke();
   };
 

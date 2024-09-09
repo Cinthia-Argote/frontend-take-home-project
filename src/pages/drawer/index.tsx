@@ -1,10 +1,8 @@
-
 import { useState } from "react";
 import Canvas from "./components/canvas";
 import Actions from "./components/actions";
 import styles from "./styles/index.module.css";
 import { ModeCanvas } from "@/enums";
-
 
 const Drawer = () => {
   const [mode, setMode] = useState<ModeCanvas>(ModeCanvas.DRAW);
@@ -12,10 +10,8 @@ const Drawer = () => {
 
   return (
     <div className={styles.container}>
-      <Actions setColor={setColor} setMode={setMode} />
-      <div className={styles.section}>
-        <Canvas color={color} mode={mode} />
-      </div>
+      <Actions setColor={setColor} setMode={setMode} mode={mode} />
+      <Canvas color={color} mode={mode} />
     </div>
   );
 };
