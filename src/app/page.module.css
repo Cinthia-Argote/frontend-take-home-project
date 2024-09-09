@@ -7,6 +7,13 @@
   min-height: 100vh;
 }
 
+.goDrawer {
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 10px 20px;
+  border: none;
+}
+
 .description {
   display: inherit;
   justify-content: inherit;

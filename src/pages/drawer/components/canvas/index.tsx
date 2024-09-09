@@ -19,7 +19,12 @@ const Canvas: FC<DrawerCanvasProps> = ({
   const onClickCanvas = (e: MouseEvent) => {
     if (mode !== ModeCanvas.TEXT) return;
     if (hasInput.current) return;
-    addInput(e.clientX, e.clientY);
+    addInput(
+      e.clientX,
+      e.clientY,
+      e.nativeEvent.offsetX,
+      e.nativeEvent.offsetY
+    );
   };
 
   useEffect(() => {
@@ -29,6 +34,7 @@ const Canvas: FC<DrawerCanvasProps> = ({
       if (ctx) {
         setContext(ctx);
         ctx.strokeStyle = color;
+        ctx.fillStyle = color;
 
         if (mode !== ModeCanvas.TEXT) {
           hasInput.current = false;
@@ -43,7 +49,7 @@ const Canvas: FC<DrawerCanvasProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode, color]);
 
-  const addInput = (x: number, y: number) => {
+  const addInput = (x: number, y: number, offX: number, offY: number) => {
     const input = document.createElement("input");
 
     input.type = "text";
@@ -52,22 +58,23 @@ const Canvas: FC<DrawerCanvasProps> = ({
     input.style.top = y - 4 + "px";
     hasInput.current = true;
 
-    input.onkeydown = (e) => handleEnter(e, input);
+    input.onkeydown = (e) => handleEnter(e, input, offX, offY);
 
     document.body.appendChild(input);
 
     input.focus();
   };
 
-  const handleEnter = (e: KeyboardEvent, input: HTMLInputElement) => {
+  const handleEnter = (
+    e: KeyboardEvent,
+    input: HTMLInputElement,
+    offsetX: number,
+    offsetY: number
+  ) => {
     var keyCode = e.keyCode;
 
     if (keyCode === 13) {
-      drawText(
-        input.value,
-        parseInt(input.style.left, 10),
-        parseInt(input.style.top, 10)
-      );
+      drawText(input.value, offsetX, offsetY);
       document.body.removeChild(input);
       hasInput.current = false;
     }
