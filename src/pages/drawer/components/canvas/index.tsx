@@ -15,9 +15,10 @@ const Canvas: FC<DrawerCanvasProps> = ({
   const [isDrawing, setIsDrawing] = useState<boolean>(false);
   const hasInput = useRef(false);
 
-  const onClickCanvas = (e: any) => {
+  const onClickCanvas = (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    if (mode === ModeCanvas.DRAW || mode === ModeCanvas.ERASE) return;
     if (hasInput.current) return;
     addInput(e.clientX, e.clientY);
   };
@@ -33,7 +34,6 @@ const Canvas: FC<DrawerCanvasProps> = ({
           ctx.lineWidth = 2;
           ctx.globalCompositeOperation = "source-over";
           canvas.style.cursor = "url('/pencil.svg') 50 50, auto";
-          canvas.removeEventListener("click", onClickCanvas);
           hasInput.current = false;
         }
 
@@ -41,7 +41,6 @@ const Canvas: FC<DrawerCanvasProps> = ({
           ctx.globalCompositeOperation = "destination-out";
           ctx.lineWidth = 10;
           canvas.style.cursor = "url('/eraser.svg') 50 50, auto";
-          canvas.removeEventListener("click", onClickCanvas);
           hasInput.current = false;
         }
 
@@ -49,19 +48,12 @@ const Canvas: FC<DrawerCanvasProps> = ({
           ctx.lineWidth = 2;
           canvas.style.cursor = "url('/inputText.svg') 50 50, auto";
           ctx.globalCompositeOperation = "source-over";
-          canvas.addEventListener("click", onClickCanvas);
         }
 
         if (mode === ModeCanvas.RECTANGLE) {
         }
       }
     }
-
-    return () => {
-      if (canvas) {
-        canvas.removeEventListener("click", onClickCanvas);
-      }
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
 
@@ -81,7 +73,7 @@ const Canvas: FC<DrawerCanvasProps> = ({
     input.focus();
   };
 
-  const handleEnter = (e: any, input: any) => {
+  const handleEnter = (e: KeyboardEvent, input: HTMLInputElement) => {
     var keyCode = e.keyCode;
 
     if (keyCode === 13) {
@@ -139,6 +131,7 @@ const Canvas: FC<DrawerCanvasProps> = ({
         onMouseDown={startDrawing}
         onMouseUp={stopDrawing}
         onMouseMove={draw}
+        onClick={onClickCanvas}
       />
     </>
   );
