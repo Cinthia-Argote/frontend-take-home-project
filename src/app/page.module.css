@@ -18,6 +18,24 @@
   font-family: var(--font-mono);
 }
 
+.example {
+  display: inherit;
+  justify-content: center;
+  color: dimgray;
+  align-items: inherit;
+  font-size: 0.95rem;
+  max-width: var(--max-width);
+  border-radius: 5px;
+  padding: 16px;
+  margin: 16px;
+  font-family: var(--font-mono);
+  border: black 2px solid;
+}
+
+.example p {
+  padding: 10px;
+}
+
 .description a {
   /* display: flex; */
   justify-content: inherit;
@@ -99,7 +117,7 @@
 
 .center::before,
 .center::after {
-  content: '';
+  content: "";
   left: 50%;
   position: absolute;
   filter: blur(45px);

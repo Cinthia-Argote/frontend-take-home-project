@@ -1,0 +1,23 @@
+.actions {
+  background-color: silver;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 8px;
+}
+
+.picker {
+  width: 60px;
+  height: 30px;
+}
+
+.button {
+  border: none;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.buttonActive {
+  border: 2px solid #4CAF50;
+  border-radius: 5px;
+}
